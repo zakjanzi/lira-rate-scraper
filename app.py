@@ -52,12 +52,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def scrape_lira_rate():
-    # Set the proxy to use for the request, because the website requires a VPN to access.
+    # A proxy, since this website may not be available in your country.
     # proxy = {'https': 'https://195.246.120.139:8443/'}
 
-    # Scrape the website using the proxy
+    # Scraper setup
     url = 'https://lirarate.org'
     response = requests.get(url)
+    # uncomment only if using proxy:
+    # response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     
     # Extract the buy value of the Lira
@@ -72,7 +74,7 @@ def scrape_lira_rate():
 
     print(buy_value, sell_value)
 
-    # Return a message indicating success
+    # Return a message indicating status
 
     if buy_value and sell_value:
         return jsonify({'message': 'Scraped and stored the Lira rate successfully'})
@@ -88,6 +90,6 @@ if __name__ == '__main__':
 
 
 # <p class="has-text-align-center inherit-font" id="latest-buy"><strong id="buy-value" data-value="97500">Buy</strong> 1 USD at 97,500 LBP</p>
-
-# tcp port: 8443, 853, 443, 80
-# VPN IP: 195.246.120.139
+# PIA VPN Ports:
+#   tcp port: 8443, 853, 443, 80
+#   VPN IP: 195.246.120.139
