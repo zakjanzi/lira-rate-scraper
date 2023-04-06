@@ -57,21 +57,28 @@ def scrape_lira_rate():
 
     # Scrape the website using the proxy
     url = 'https://lirarate.org'
-    response = requests.get(url, verify=False)
+    response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     
     # Extract the buy value of the Lira
-    buy_value = soup.find('p', {'id': 'buy-value'}).text.strip()
+    buy_value = soup.find('div', {'class': 'wp-block-column'}).text.strip()
 
     # Extract the sell value of the Lira
-    sell_value = soup.find('p', {'id': 'sell-value'}).text.strip()
+    sell_value = soup.find('div', {'class': 'wp-block-column'}).text.strip()
 
     # Store the scraped data in a Google Sheet
     row = [buy_value, sell_value]
     sheet.insert_row(row, 2)
 
+    print(buy_value, sell_value)
+
     # Return a message indicating success
-    return jsonify({'message': 'Scraped and stored the Lira rate successfully'})
+
+    if buy_value and sell_value:
+        return jsonify({'message': 'Scraped and stored the Lira rate successfully'})
+    else:
+        return jsonify({'message': 'Error: could not scrape the Lira rate'})
+
 
 
 if __name__ == '__main__':
