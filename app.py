@@ -1,22 +1,24 @@
-# Flask: A micro web framework for Python used to build web applications.
-# jsonify: A utility function from Flask used to serialize data to JSON format
 from flask import Flask, jsonify
-# A Python library used for web scraping to extract data from HTML and XML documents.
 from bs4 import BeautifulSoup
-# A Python library used for making HTTP requests.
+# A Python library used for web scraping to extract data from HTML and XML documents
 import requests
-# Connecting to MongoDB
+# A Python library used for making HTTP requests
 from pymongo import MongoClient
-# A module used to load environment variables from a .env file.
+# Connecting to MongoDB
+import re
+# Regex is a built-in module in Python that provides support for regular expressions
 from dotenv import load_dotenv
 import os
-# To schedule the scraper
 import schedule
+# A library to schedule the scraping task
 import time
+
 
 
 # Load the environment variables from .env file
 load_dotenv()
+
+# Initialize Mongo client and create a new collection within db
 mongo_uri = os.getenv("MONGO_URI")
 client = MongoClient(mongo_uri)
 db = client.test
@@ -26,7 +28,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def scrape_lira_rate():
-    # A proxy, since this website may not be available in your country.
+    # A proxy, since this website may not be available in your country
     # proxy = {'https': 'https://195.246.120.139:8443/'}
 
     # Scraper setup
@@ -39,21 +41,27 @@ def scrape_lira_rate():
     # Extract the sell value of the Lira
     sell_value = soup.find_all('div', {'class': 'wp-block-column'})[1].text.strip()
 
+    # Clean the scraped data (extract integers only from string)
+    buy_value = re.findall(r'\d+,\d+', buy_value)[0]
+    sell_value = re.findall(r'\d+,\d+', sell_value)[0]
+
     print(buy_value, sell_value)
 
-    # Return a message indicating status
-
+    # Insert the data into the db
     if buy_value and sell_value:
         usd_lbp_collection.insert_one({
             'buy_value': buy_value,
             'sell_value': sell_value
         })
+
+    # Return a message indicating status
         return jsonify({'message': 'Scraped and stored the Lira rate successfully'})
     else:
         return jsonify({'message': 'Error: could not scrape the Lira rate'})
+    
 
 def schedule_job():
-    schedule.every(1).minutes.do(scrape_lira_rate)
+    schedule.every(1).hour.do(scrape_lira_rate)
 
     while True:
         schedule.run_pending()
@@ -67,6 +75,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+# Notes:
 # <p class="has-text-align-center inherit-font" id="latest-buy"><strong id="buy-value" data-value="97500">Buy</strong> 1 USD at 97,500 LBP</p>
 # PIA VPN Ports:
 #   tcp port: 8443, 853, 443, 80
