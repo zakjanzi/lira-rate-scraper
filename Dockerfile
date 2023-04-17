@@ -1,27 +1,24 @@
-# Define the base image to use
+# Use the official Python image as the base image
 FROM python:3.9-slim-buster
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file to the working directory
+# Copy the requirements file into the container
 COPY requirements.txt .
 
-# Install the required packages
+# Install the Python packages
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application files to the working directory
-COPY . .
+# Copy the Python script into the container
+COPY script.py .
 
-# Expose the port on which the Flask app will run
-EXPOSE 5000
-
-# Run the Flask app
-CMD [ "python", "app.py" ]
+# Set the entry point for the container to the name of your Python script
+ENTRYPOINT ["python", "main.py"]
 
 
 
-# to build, run:` docker build -t lbp-scraper . `
+# to build, run:` docker build -t lbp_scraper_lambda . `
 
-# to run: ` docker run -p 4000:5000 lbp-scraper `
+# to run: ` docker run -p 4000:5000 lbp_scraper_lambda `
 
