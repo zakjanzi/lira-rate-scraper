@@ -51,7 +51,7 @@ def scrape_lambda_handler():
 
 
     # def schedule_job():
-    #     schedule.every(1).minute.do(scrape_lira_rate)
+    #     schedule.every(1).hour.do(scrape_lira_rate)
 
     #     while True:
     #         schedule.run_pending()
