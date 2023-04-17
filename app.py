@@ -61,7 +61,12 @@ def scrape_lira_rate():
     
 
 def schedule_job():
-    schedule.every(1).hour.do(scrape_lira_rate)
+    schedule.every(1).minute.do(scrape_lira_rate)
+    local_url = 'http://localhost:5000/'  # replace with your app's URL
+    local_response = requests.get(local_url)
+    print(local_response)
+
+
 
     while True:
         schedule.run_pending()
@@ -73,10 +78,3 @@ if __name__ == '__main__':
 
     # Starting the Flask app
     app.run(debug=True)
-
-
-# Notes:
-# <p class="has-text-align-center inherit-font" id="latest-buy"><strong id="buy-value" data-value="97500">Buy</strong> 1 USD at 97,500 LBP</p>
-# PIA VPN Ports:
-#   tcp port: 8443, 853, 443, 80
-#   VPN IP: 195.246.120.139
