@@ -20,6 +20,8 @@ EXPOSE 5000
 CMD [ "python", "app.py" ]
 
 
+
 # to build, run:` docker build -t lbp-scraper . `
 
-# to run: ` docker run -p 5000:5000 lbp-scraper `
+# to run: ` docker run -p 4000:5000 lbp-scraper `
+
