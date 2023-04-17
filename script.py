@@ -7,11 +7,11 @@ from pymongo import MongoClient
 # Connecting to MongoDB
 import re
 # Regex is a built-in module in Python that provides support for regular expressions
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 import os
 
-def scrape_lambda_handler():
+def scrape_lambda_handler(event,context):
         # A proxy, since this website may not be available in your country
         # proxy = {'https': 'https://195.246.120.139:8443/'}
 
