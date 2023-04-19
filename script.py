@@ -45,7 +45,7 @@ def scrape_lambda_handler(event,context):
             })
 
         # Return a message indicating status
-            return {'message': 'Scraped and stored the Lira rate successfully'}
+            return f"1 USD = {buy_value}"
         else:
             return {'message': 'Error: could not scrape the Lira rate'}
 
