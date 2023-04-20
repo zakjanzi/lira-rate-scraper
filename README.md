@@ -1,5 +1,10 @@
-# lira-rate-scraper
+# LBP/USD Scraper
 
-Scrapes the Lebanese pound (LBP) at the current shadow market price. (from lirarate.org)
+A python script that scrapes the value of the Dollar against the LBP at the shadow market rate, then stores the values in a mongoDB cluster (to be used in my "Dashboard" project).
+I created and hosted a Lambda function and scheduled it to run every hour using CloudWatch.
 
-The scraped data is then stored in a MongoDB cluster, and is used in my next project - the Econ. Dashboard.
+
+# Test it
+
+You can test it by invoking the function on [my website](https://zakjanzi.me/). Click the "Send Request" button to run the function and retrieve the current price of the USD-LBP pair.
+
