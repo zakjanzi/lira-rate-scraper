@@ -3,6 +3,8 @@
 A python script that scrapes the value of the Dollar against the LBP at the shadow market rate, then stores the values in a mongoDB cluster (to be used in my "Dashboard" project).
 I created and hosted a Lambda function and scheduled it to run every hour using CloudWatch.
 
+Dcoker repo and image can be found [here](https://hub.docker.com/repository/docker/zakjanzi/lbp-scraper/general) .
+
 
 # Test it
 
