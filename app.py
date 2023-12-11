@@ -37,9 +37,9 @@ def scrape_lira_rate():
     soup = BeautifulSoup(response.content, 'html.parser')
     
     # Extract the buy value of the Lira
-    buy_value = soup.find('div', {'class': 'wp-block-column'}).text.strip()
+    buy_value = soup.find('p', {'class': 'latest-buy'}).text.strip()
     # Extract the sell value of the Lira
-    sell_value = soup.find_all('div', {'class': 'wp-block-column'})[1].text.strip()
+    sell_value = soup.find('p', {'class': 'latest-sell'}).text.strip()
 
     # Clean the scraped data (extract integers only from string)
     buy_value = re.findall(r'\d+,\d+', buy_value)[0]
